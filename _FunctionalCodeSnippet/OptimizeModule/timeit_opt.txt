@@ -1,0 +1,51 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 交互环境下 timeit 测试代码性能 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+1. 实际测试案例：
+--> 案例性能测试代码
+(py36) E:\_Jun\Foxconn\1-spindle\2-TGProject\project\spindle\realTimeMonitor>python -m timeit -n 2 -r 2 -s "from SpindleRealTimeAnalysis import SpindleRealTimeAnalysis" "SpindleRealTimeAnalysis().offline_main()"
+
+--> 语法：
+	python -m timeit
+		   -n 2 
+		   -r 2 
+		   -s "from SpindleRealTimeAnalysis import SpindleRealTimeAnalysis" "SpindleRealTimeAnalysis().offline_main()"
+	
+	# 在ipython中可以采用如下方式
+	%timeit -n 2 -r 2 -s "from SpindleRealTimeAnalysis import SpindleRealTimeAnalysis" "SpindleRealTimeAnalysis().offline_main()"
+
+	
+
+--> 语法说明：
+	-m: 指定要作为脚本运行的内置模块名称，这里就是 timeit 模块
+	-n: 表示 timeit 要对执行的代码循环执行 n 次
+	-r: 表示 timeit 会重复 r 次执行。 
+		-n 与 -r 的表示的意思就是，timeit 模块首先会对要执行的代码循环执行 n 次，取 n 次的平均值作为一个结果，然后重复 r 次，这样就得到了 r 个结果，然后选出最好的结果进行返回
+		返回结果如下：5 loops, best of 2: 2.47 sec per loop
+	-s: 表示导入要执行的代码所属的 module, 后面就是通过 module_name.func_name() 表示要测试执行的代码了
+
+--> ipython中使用timeit:
+	In [1]: from module_name import func_name
+	In [2]: %timeit func_name(*args, **kwargs)
+	
+--> 缺点：
+	命令行模式测试代码性能返回结果不够详细
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 交互环境下 time和timeit 测试代码性能对比 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+1. 实际测试案例：
+--> 案例性能测试代码
+	In [2]: from IslandNumber_200 import Solution
+
+	In [3]: A = [["1", "1", "0", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "1"], ["0", "0", "1", "0", "0"]
+	   ...: ] * 10000
+
+	# %timeit带参数
+	In [4]: %timeit -n 50 -r 5 Solution().numIslands(A)
+	26.4 ms ± 1.48 ms per loop (mean ± std. dev. of 5 runs, 50 loops each)
+
+	In [5]: %time Solution().numIslands(A)
+	Wall time: 15.6 ms
+	Out[5]: 0
+
+--> 输出说明：
+	time 输出的wall time 是实际耗时

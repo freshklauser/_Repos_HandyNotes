@@ -1,0 +1,82 @@
+1. 实际测试案例：
+--> 案例性能测试代码：
+	方式一：直接控制台输出测试性能结果
+		(py36) E:\_Jun\Foxconn\1-spindle\2-TGProject\project\spindle\realTimeMonitor>python -m cProfile -s cumulative SpindleRealTimeAnalysis.py
+		
+	方式二：生成一个统计文件，然后通过 pstats 模块进行分析
+		(1) 生成统计文件
+			(py36) E:\_Jun\Foxconn\1-spindle\2-TGProject\project\spindle\realTimeMonitor>python -m cProfile -o rt_profile.stats SpindleRealTimeAnalysis.py
+		(2) pstats模块分析统计文件
+			import pstats
+			p = pstats.Stats('profile.stats')
+			# p.sort_stats('tottime')       # 对结果排序，默认按照 cumtime 排序
+			# 输出累计时间报告		
+			p.print_stats()					# 输入参数 amount 可限制print的数据行数			
+			# 输出调用者的信息
+			p.print_callers()
+			# 输出哪个函数调用了哪个函数
+			p.print_callees()
+		
+--> 语法说明：
+	-m cProfile:   			表示执行 cProfile 模块
+	-s cumulative: 			表示对每个函数累计花费时间进行排序
+	-o rt_profile.stats: 	表示测试结果输出到文件 rt_profile.stats 中（供 pstats 分析）
+	
+--> 简单dfs&bfs代码测试性能：
+	In [1]: import pstats
+	In [2]: p = pstats.Stats('profile.stats')
+	In [3]: p.sort_stats('cumulative')				# 按照 ... 排序
+	Out[3]: <pstats.Stats at 0x263a6ea8be0>
+	In [40]: p.print_stats(5)						# 只显示排序后的前5条数据
+	Sun Apr  5 10:42:34 2020    rt_profile.stats
+
+			 8417879 function calls (8101407 primitive calls) in 5.852 seconds
+
+	   Ordered by: cumulative time
+	   List reduced from 6325 to 5 due to restriction <5>
+
+	   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+	   1350/1    0.057    0.000    5.854    5.854 {built-in method builtins.exec}
+			1    0.001    0.001    5.854    5.854 SpindleRealTimeAnalysis.py:9(<module>)
+			1    0.001    0.001    3.661    3.661 SpindleRealTimeAnalysis.py:33(__init__)
+			1    0.000    0.000    3.660    3.660 SpindleRealTimeAnalysis.py:53(fake_data)
+			1    0.001    0.001    3.654    3.654 C:\Users\Administrator\Anaconda3\envs\py36\lib\site-packages\pandas\io\parsers.py:539(parser_f)
+	Out[40]: <pstats.Stats at 0x192f2a21518>
+
+	In [5]: p.sort_stats('tottime')				# 按照tottime排序，默认按照cumtime排序
+	Out[5]: <pstats.Stats at 0x263a6ea8be0>
+	In [6]: p.print_stats()
+	Sun Apr  5 10:58:27 2020    profile.stats
+
+			 56 function calls (52 primitive calls) in 4.033 seconds
+
+	   Ordered by: internal time				# 显示排序的依据
+
+	   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+			4    4.032    1.008    4.032    1.008 {built-in method time.sleep}
+			2    0.001    0.000    0.001    0.000 {built-in method builtins.print}
+			1    0.000    0.000    4.032    4.032 934-ShortestBridge.py:11(shortestBridge)
+		  5/1    0.000    0.000    4.032    4.032 934-ShortestBridge.py:14(dfs)
+			1    0.000    0.000    4.033    4.033 934-ShortestBridge.py:7(<module>)
+			1    0.000    0.000    0.000    0.000 {built-in method builtins.__build_class__}
+		   14    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+			1    0.000    0.000    4.033    4.033 {built-in method builtins.exec}
+		   15    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+			5    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+			1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+			1    0.000    0.000    0.000    0.000 934-ShortestBridge.py:10(Solution)
+			5    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+Out[6]: <pstats.Stats at 0x263a6ea8be0>
+
+--> p.print_stats()输出结果各项的含义:
+    ncalls: 函数执行次数								# Ordered by: call count
+    tottime: 累计耗时									# Ordered by: internal time
+    percall: 每次耗时									# 
+    cumtime: 包括子函数的执行时间						# Ordered by: cumulative time 
+    percall 每次的执行时间
+    filename:lineno(function): 文件名+代码行数+方法名
+
+
+--> 缺点：
+	分析报告中的结果太细化，细化到内置函数的执行时间，对于复杂代码的输出报告，结果显示太过不明显；
+	不知道是否可以类似装饰器那样输出 函数级别 的性能测试报告
