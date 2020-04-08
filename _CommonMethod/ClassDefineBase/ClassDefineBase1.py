@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 # @Author: Administrator
 # @Date:   2020-04-07 21:36:25
-# @Last Modified by:   sniky-lyu
-# @Last Modified time: 2020-04-07 22:09:14
+# @Last Modified by:   KlausLyu
+# @Last Modified time: 2020-04-08 08:31:58
 
 '''Tips
 a.__dict__: {'data': 'abcabcabc', 'name': 'kk', 'grade': 4}
             定义的当前类 ThirdClass 赋值了的属性 （不包括继承的父类的属性）
+a.__str__:  print(class_instance), 可以用来规范化打印格式
 '''
 
 

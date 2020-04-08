@@ -1,0 +1,42 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+DateInterval	.\_Modules\DateTime_Time\DateInterval.py	/^class DateInterval:$/;"	c
+FirstClass	.\_CommonMethod\2_ClassBase.py	/^class FirstClass:$/;"	c
+LoggerHelper	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^class LoggerHelper:$/;"	c
+SecondClass	.\_CommonMethod\2_ClassBase.py	/^class SecondClass(FirstClass):          # inherits setdata$/;"	c
+ThirdClass	.\_CommonMethod\2_ClassBase.py	/^class ThirdClass(SecondClass):          # Inherits from SecondClass$/;"	c
+__add__	.\_CommonMethod\2_ClassBase.py	/^    def __add__(self, others):$/;"	m	class:ThirdClass	file:
+__check_type	.\_Modules\DateTime_Time\DateInterval.py	/^    def __check_type(self):$/;"	m	class:DateInterval	file:
+__create_directory	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^    def __create_directory(self):$/;"	m	class:LoggerHelper	file:
+__init__	.\_CommonMethod\2_ClassBase.py	/^    def __init__(self, value):$/;"	m	class:ThirdClass
+__init__	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^    def __init__(self, logger_name, dir_name='logs'):$/;"	m	class:LoggerHelper
+__init__	.\_Modules\DateTime_Time\DateInterval.py	/^    def __init__(self, date1, date2, sep="."):$/;"	m	class:DateInterval
+__str__	.\_CommonMethod\2_ClassBase.py	/^    def __str__(self):$/;"	m	class:ThirdClass	file:
+_date_interval	.\_Modules\DateTime_Time\DateInterval.py	/^    def _date_interval(self):$/;"	m	class:DateInterval
+a	.\_CommonMethod\2_ClassBase.py	/^    a = ThirdClass('abc')       # __init__ called$/;"	v
+b	.\_CommonMethod\2_ClassBase.py	/^    b = a + 'xyz'$/;"	v
+datetime	.\_Modules\DateTime_Time\DateInterval.py	/^import datetime$/;"	i
+days	.\_Modules\DateTime_Time\DateInterval.py	/^    days = DateInterval("2019\/01\/04", "2020\/03\/21", sep="\/").get_days_interval()$/;"	v
+display	.\_CommonMethod\2_ClassBase.py	/^    def display(self):                  # chages display$/;"	m	class:SecondClass
+display	.\_CommonMethod\2_ClassBase.py	/^    def display(self):$/;"	m	class:FirstClass
+get_days_interval	.\_Modules\DateTime_Time\DateInterval.py	/^    def get_days_interval(self):$/;"	m	class:DateInterval
+get_years_interval	.\_Modules\DateTime_Time\DateInterval.py	/^    def get_years_interval(self):$/;"	m	class:DateInterval
+handlers	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^import logging.handlers$/;"	i
+helper	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^    helper = LoggerHelper(logger_name)$/;"	v	class:LoggerHelper
+logger	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^    logger = helper.set_logger()$/;"	v	class:LoggerHelper
+logger_name	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^    logger_name = 'test-logger'$/;"	v	class:LoggerHelper
+logging	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^import logging$/;"	i
+logging	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^import logging.handlers$/;"	i
+mul	.\_CommonMethod\2_ClassBase.py	/^    def mul(self, others):$/;"	m	class:ThirdClass
+os	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^import os$/;"	i
+plotFig	.\_CommonMethod\2_ClassBase.py	/^    def plotFig(self):$/;"	m	class:ThirdClass
+set_logger	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^    def set_logger(self):$/;"	m	class:LoggerHelper
+setdata	.\_CommonMethod\2_ClassBase.py	/^    def setdata(self, value):$/;"	m	class:FirstClass
+sys	.\_Modules\DateTime_Time\DateInterval.py	/^import sys$/;"	i
+time	.\_FunctionalCodeSnippet\LoggerHelper\LoggerHelper.py	/^import time$/;"	i
+upperName	.\_CommonMethod\2_ClassBase.py	/^    def upperName(self):$/;"	m	class:ThirdClass
+years	.\_Modules\DateTime_Time\DateInterval.py	/^    years = DateInterval("2019\/01\/04", "2018\/03\/21", sep="\/").get_years_interval()$/;"	v

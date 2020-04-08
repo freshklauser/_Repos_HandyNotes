@@ -2,7 +2,7 @@
 # @Author: klaus
 # @Date:   2020-03-21 09:25:55
 # @Last Modified by:   KlausLyu
-# @Last Modified time: 2020-04-02 11:08:03
+# @Last Modified time: 2020-04-08 15:50:03
 
 '''{日期间隔}
 self.__class__.__name__:         获取当前的类名
