@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: KlausLyu
 # @Date:   2020-04-08 11:11:57
-# @Last Modified by:   KlausLyu
-# @Last Modified time: 2020-04-08 15:28:11
+# @Last Modified by:   sniky-lyu
+# @Last Modified time: 2020-04-09 22:30:49
 
 '''
 运算符重载：__init__, __str__ (截获并处理内置的操作)
@@ -19,6 +19,7 @@ getattr():
         default：默认返回值，如果不提供该参数，在没有对应属性时，将触发 AttributeError。
 '''
 
+
 class AttrDisplay:
     '''
     Provides an inheritable print overload method that displays instances with
@@ -26,6 +27,7 @@ class AttrDisplay:
     itself(but not attrs inherited from its classes). Can be mixed into any class,
     and will work on any instance
     '''
+
     def gatherAttrs(self):
         attrs = []
         for key in sorted(self.__dict__):
@@ -42,6 +44,7 @@ class Person(AttrDisplay):
     Extends:
         AttrDisplay
     """
+
     def __init__(self, name, job=None, pay=0):
         self.name = name
         self.job = job

@@ -123,6 +123,13 @@ if __name__ == '__main__':
     print(sue.__dict__)
     # print(object.__dict__, dir(object))
     print()
+    
+    x = Manager
+    print(x.mro())
+    # 列表：[<class '__main__.Manager'>, <class '__main__.Person'>, <class 'classtools.AttrDisplay'>, <class 'object'>]
+    print(x.__mro__)
+    # 元组：(<class '__main__.Manager'>, <class '__main__.Person'>, <class 'classtools.AttrDisplay'>, <class 'object'>)
+
     # class tree
     # ClassTreeDisplay().instanceTree(tom)
     print(tom)
@@ -130,3 +137,4 @@ if __name__ == '__main__':
     # del tom             # 删除对象，会自动调用__del__方法，当计数为0时完全删除
     # print(tom)        # 手动del后，tom不存在了（由于这里tom的引用计数只有1，所有del后为0，直接回收）
     print('over-----------------')
+
