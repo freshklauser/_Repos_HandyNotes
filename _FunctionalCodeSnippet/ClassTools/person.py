@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: sniky-lyu
 # @Date:   2020-04-08 21:48:40
-# @Last Modified by:   sniky-lyu
-# @Last Modified time: 2020-04-09 21:49:09
+# @Last Modified by:   KlausLyu
+# @Last Modified time: 2020-04-09 17:35:47
 
 
 '''
@@ -11,12 +11,30 @@ Docstr Tips:
     module path, typing the command below:
         pydoc person > person.docstr
     The docstring file is saved as person.docstr (or any file suffix you perfer)
+
+运算符重载：__init__, __str__ (截获并处理内置的操作)
+    __init__: 构造函数，初始化一个新创建的示例Instance
+    __str__: 打印一个对象会显示对象的__str__方法所返回的内容
+    __getattr__: 拦截未定义的属性获取
+    __getattribute__: 拦截所有的属性获取（慎用）
+    __del__: 删除对象，当系统要收回对象时，会自动调用__del__方法。当使用del() 手动删除变量指向的对象时，
+             则会减少对象的引用计数。如果对象的引用计数不为1，那么会让这个对象的引用计数减1，
+             当对象的引用计数为0的时候，则对象才会被真正删除（内存被回收）
+
+getattr():
+    getattr() 函数用于返回一个对象属性值。
+    语法：
+    getattr(object, name[, default])
+        object：对象。
+        name：字符串，对象属性。
+        default：默认返回值，如果不提供该参数，在没有对应属性时，将触发 AttributeError。
 '''
 
-from classtools import AttrDisplay, ClassTree
+from classtools import InstanceAttrDisplay, InheritedAttrDisplay
+from classtools import ClassTreeAttributesDisplay
 
 
-class Person(AttrDisplay):
+class Person(ClassTreeAttributesDisplay):
     """
     继承实例属性显示__str__的封装类
     Extends:
@@ -35,6 +53,30 @@ class Person(AttrDisplay):
         self.name = name
         self.job = job
         self.pay = pay
+
+    def __getattr__(self, attrname):
+        '''
+        拦截未定义的属性，如果属性不存在，raise异常
+        Arguments:
+            attrname  -- attribute intercepted
+        Returns:
+            self.attrname
+        Raises:
+            AttributeError -- 属性不存在异常
+        '''
+        if attrname in self.__dict__.keys():
+            return self.__dict__[attrname]
+        elif attrname == 'department':
+            self.__dict__[attrname] = 'sales department' # 新增性并返回, 用self.__dict__[attrname]而不是self.attrname
+            return self.__dict__[attrname]
+            # self.attrname = 'sales'                    # 'attrname': 'sales', 属性名编程了 attrname 而不是预期的 department
+            # return self.attrname
+        else:
+            raise AttributeError("Attribute '{}' is not existed".format(attrname))
+
+    def __del__(self):
+        ''' 对象回收 '''
+        print('对象{}被销毁'.format(self.__class__.__name__))
 
     def lastName(self):
         '''
@@ -63,23 +105,36 @@ class Manager(Person):
 
 if __name__ == '__main__':
     bob = Person("Bob Smith")
-    sue = Person("Sue Jones", job='dev', pay=10000)
     tom = Manager('Tom Jones', 50000)
+    sue = Person("Sue Jones", job='dev', pay=10000)
     sue.giveRaise(0.1)
     tom.giveRaise(0.1)
     print('--- All three --')
     for object in (bob, sue, tom):
         object.giveRaise(0.1)
         print(object)
-    print()
+
+    print(tom.department)
+    # print(tom.__dict__['department'])
+    print(tom.pay, end = '\n\n')
+    # print(tom.salary)
+    print(tom.__dict__)         #
+    print(bob.__dict__)
+    print(sue.__dict__)
     # print(object.__dict__, dir(object))
-
-    # class tree
-    ClassTree().instanceTree(tom)
     print()
-
+    
     x = Manager
     print(x.mro())
     # 列表：[<class '__main__.Manager'>, <class '__main__.Person'>, <class 'classtools.AttrDisplay'>, <class 'object'>]
     print(x.__mro__)
     # 元组：(<class '__main__.Manager'>, <class '__main__.Person'>, <class 'classtools.AttrDisplay'>, <class 'object'>)
+
+    # class tree
+    # ClassTreeDisplay().instanceTree(tom)
+    print(tom)
+
+    # del tom             # 删除对象，会自动调用__del__方法，当计数为0时完全删除
+    # print(tom)        # 手动del后，tom不存在了（由于这里tom的引用计数只有1，所有del后为0，直接回收）
+    print('over-----------------')
+
