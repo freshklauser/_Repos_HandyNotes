@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: KlausLyu
 # @Date:   2020-04-08 11:11:57
-# @Last Modified by:   KlausLyu
-# @Last Modified time: 2020-04-08 15:24:46
+# @Last Modified by:   sniky-lyu
+# @Last Modified time: 2020-04-09 22:30:45
 
 '''
 运算符重载：__init__, __str__ (截获并处理内置的操作)
@@ -22,6 +22,7 @@ getattr():
 
 class Person:
     """docstring for Person"""
+
     def __init__(self, name, job=None, pay=0):
         self.name = name
         self.job = job
@@ -62,6 +63,7 @@ class AttrDisplay:
     itself(but not attrs inherited from its classes). Can be mixed into any class,
     and will work on any instance
     '''
+
     def gatherAttrs(self):
         attrs = []
         for key in sorted(self.__dict__):
@@ -70,8 +72,6 @@ class AttrDisplay:
 
     def __str__(self):
         return '[{}: {}]'.format(self.__class__.__name__, self.gatherAttrs())
-
-
 
 
 if __name__ == '__main__':

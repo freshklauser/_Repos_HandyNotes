@@ -2,7 +2,7 @@
 # @Author: sniky-lyu
 # @Date:   2020-04-08 21:48:40
 # @Last Modified by:   sniky-lyu
-# @Last Modified time: 2020-04-08 22:41:26
+# @Last Modified time: 2020-04-09 21:49:09
 
 
 '''
@@ -77,3 +77,9 @@ if __name__ == '__main__':
     # class tree
     ClassTree().instanceTree(tom)
     print()
+
+    x = Manager
+    print(x.mro())
+    # 列表：[<class '__main__.Manager'>, <class '__main__.Person'>, <class 'classtools.AttrDisplay'>, <class 'object'>]
+    print(x.__mro__)
+    # 元组：(<class '__main__.Manager'>, <class '__main__.Person'>, <class 'classtools.AttrDisplay'>, <class 'object'>)
