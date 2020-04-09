@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: KlausLyu
 # @Date:   2020-04-08 15:31:14
-# @Last Modified by:   KlausLyu
-# @Last Modified time: 2020-04-08 15:41:36
+# @Last Modified by:   sniky-lyu
+# @Last Modified time: 2020-04-08 22:16:22
 
 
 '''
@@ -19,6 +19,7 @@
             default：默认返回值，如果不提供该参数，在没有对应属性时，将触发 AttributeError。
 '''
 
+
 class AttrDisplay:
     '''
     Provides an inheritable print overload method that displays instances with
@@ -26,6 +27,7 @@ class AttrDisplay:
     itself(but not attrs inherited from its classes). Can be mixed into any class,
     and will work on any instance
     '''
+
     def _gatherAttrs(self):
         attrs = []
         for key in sorted(self.__dict__):
@@ -36,42 +38,43 @@ class AttrDisplay:
         return '[{}: {}]'.format(self.__class__.__name__, self._gatherAttrs())
 
 
+class ClassTree:
+    """
+    Climb inheritance trees using namespace links, displaying higher superclasses
+    with indentation
+    """
+
+    def classTree(self, cls, indent):
+        print('.' * indent + cls.__name__)
+        for supercls in cls.__bases__:              # recur to all superclasses
+            self.classTree(supercls, indent + 3)
+
+    def instanceTree(self, inst, indent=3):
+        print('Tree of {}'.format(inst))
+        self.classTree(inst.__class__, indent)
+
+    def selftest(self):
+        class A:
+            pass
+
+        class B(A):
+            pass
+
+        class C(A):
+            pass
+
+        class D(B, C):
+            pass
+
+        class E:
+            pass
+
+        class F(D, E):
+            pass
+
+        self.instanceTree(B())
+        self.instanceTree(F())
+
+
 if __name__ == '__main__':
-    class Person(AttrDisplay):
-        """
-        继承实例属性显示__str__的封装类
-        Extends:
-            AttrDisplay
-        """
-        def __init__(self, name, job=None, pay=0):
-            self.name = name
-            self.job = job
-            self.pay = pay
-
-        def lastName(self):
-            return self.name.split()[-1]
-
-        def giveRaise(self, percent):
-            self.pay = int(self.pay * (1 + percent))
-
-
-    class Manager(Person):
-        def __init__(self, name, pay):                      # name, pay 本地变量
-            # Person.__init__(self, name, 'manager', pay)   # 调用Person的__init__方法初始化Manager, 继承Person的属性
-            super().__init__(name, 'Manager', pay)      # 调用父类super class 的 __init__ 方法来继承 父类 的属性
-
-        def giveRaise(self, percent, bonus=0.1):
-            # Person.giveRaise(self, percent + bonus)       # 需要 传入 self, self代表的是Person类的实例
-            super().giveRaise(percent + bonus)              # 不需要传入self, super()相当于实例化了一个 super 类
-
-    bob = Person("Bob Smith")
-    sue = Person("Sue Jones", job='dev', pay=10000)
-    tom = Manager('Tom Jones', 50000)
-    sue.giveRaise(0.1)
-    tom.giveRaise(0.1)
-    print('--- All three --')
-    for object in (bob, sue, tom):
-        object.giveRaise(0.1)
-        print(object)
-    print()
-    print(object.__dict__, dir(object))
+    ClassTree().selftest()
