@@ -2,7 +2,7 @@
 # @Author: sniky-lyu
 # @Date:   2020-04-08 21:48:40
 # @Last Modified by:   KlausLyu
-# @Last Modified time: 2020-04-09 17:35:47
+# @Last Modified time: 2020-04-10 17:12:56
 
 
 '''
@@ -30,6 +30,7 @@ getattr():
         default：默认返回值，如果不提供该参数，在没有对应属性时，将触发 AttributeError。
 '''
 
+from decorators import timmer
 from classtools import InstanceAttrDisplay, InheritedAttrDisplay
 from classtools import ClassTreeAttributesDisplay
 
@@ -78,6 +79,7 @@ class Person(ClassTreeAttributesDisplay):
         ''' 对象回收 '''
         print('对象{}被销毁'.format(self.__class__.__name__))
 
+    # @timmer
     def lastName(self):
         '''
         Returns:
@@ -85,6 +87,7 @@ class Person(ClassTreeAttributesDisplay):
         '''
         return self.name.split()[-1]
 
+    # @timmer
     def giveRaise(self, percent):
         '''
         Arguments:
@@ -98,6 +101,7 @@ class Manager(Person):
         # Person.__init__(self, name, 'manager', pay)   # 调用Person的__init__方法初始化Manager, 继承Person的属性
         super().__init__(name, 'Manager', pay)      # 调用父类super class 的 __init__ 方法来继承 父类 的属性
 
+    @timmer
     def giveRaise(self, percent, bonus=0.1):
         # Person.giveRaise(self, percent + bonus)       # 需要 传入 self, self代表的是Person类的实例
         super().giveRaise(percent + bonus)              # 不需要传入self, super()相当于实例化了一个 super 类
@@ -113,7 +117,7 @@ if __name__ == '__main__':
     for object in (bob, sue, tom):
         object.giveRaise(0.1)
         print(object)
-
+    print(tom.lastName())
     print(tom.department)
     # print(tom.__dict__['department'])
     print(tom.pay, end = '\n\n')
@@ -123,16 +127,17 @@ if __name__ == '__main__':
     print(sue.__dict__)
     # print(object.__dict__, dir(object))
     print()
-    
+
     x = Manager
+    print(type(x), x.__class__.__name__)
     print(x.mro())
     # 列表：[<class '__main__.Manager'>, <class '__main__.Person'>, <class 'classtools.AttrDisplay'>, <class 'object'>]
-    print(x.__mro__)
+    # print(x.__mro__)
     # 元组：(<class '__main__.Manager'>, <class '__main__.Person'>, <class 'classtools.AttrDisplay'>, <class 'object'>)
 
     # class tree
     # ClassTreeDisplay().instanceTree(tom)
-    print(tom)
+    # print(tom)
 
     # del tom             # 删除对象，会自动调用__del__方法，当计数为0时完全删除
     # print(tom)        # 手动del后，tom不存在了（由于这里tom的引用计数只有1，所有del后为0，直接回收）

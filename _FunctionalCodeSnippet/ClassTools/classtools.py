@@ -2,10 +2,11 @@
 # @Author: KlausLyu
 # @Date:   2020-04-08 15:31:14
 # @Last Modified by:   KlausLyu
-# @Last Modified time: 2020-04-09 17:36:59
+# @Last Modified time: 2020-04-10 11:27:54
 
 
 '''
+Theme: 定制类、实例属性显示
 Functions:
     InstanceAttrDisplay:  实例属性显示
     InheritedAttrDisplay: 继承属性显示
@@ -28,7 +29,7 @@ Tips:
 
 
 class InstanceAttrDisplay:
-    '''
+    '''实例属性
     Provides an inheritable print overload method that displays instances with
     their class names and a name=value pair for each attrbute stored on the instance
     itself(but not attrs inherited from its classes). Can be mixed into any class,
@@ -60,7 +61,7 @@ class InstanceAttrDisplay:
 
 
 class InheritedAttrDisplay:
-    '''
+    '''实例属性+继承属性
     Use dir() to collect both instance attrs and names inherited from its classes.
     '''
 
@@ -84,7 +85,7 @@ class InheritedAttrDisplay:
 
 
 class ClassTreeAttributesDisplay:
-    """
+    """类树+属性树
     Mix-in that returns an __str__ trace of the entire class tree and all its
     objects' attrs at and above self; run by print() or str() returns constructed string;
     use __x attr names to avoid impacting clients;
@@ -136,4 +137,12 @@ class ClassTreeAttributesDisplay:
 
 
 if __name__ == '__main__':
-    ClassTreeDisplay().selfTest()
+    try:
+        x = 1 / 0
+    except:
+        import sys
+        print(sys.exc_info(), '-->', len(sys.exc_info()))
+        # (<class 'ZeroDivisionError'>, ZeroDivisionError('division by zero',), <traceback object at 0x0000024219FE9A48>) --> 3
+        print('Uncaught!', sys.exc_info()[0], '----', sys.exc_info()[1])
+        # sys.exc_info()[0]: 引发异常的类
+        # sys.exc_info()[1]: 引发异常的实例对象

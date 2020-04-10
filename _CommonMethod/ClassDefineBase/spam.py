@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: sniky-lyu
 # @Date:   2020-04-09 22:31:53
-# @Last Modified by:   sniky-lyu
-# @Last Modified time: 2020-04-09 22:38:41
+# @Last Modified by:   KlausLyu
+# @Last Modified time: 2020-04-10 14:23:48
 
 
 class Spam:
@@ -17,6 +17,10 @@ class Spam:
         print('Number of instances:', Spam.numInstances)
     # 方式2： 将 printNumInstances 方法转化为静态方法
     printNumInstances = staticmethod(printNumInstances)
+
+
+# ------------------------- decorator ----------------------------------
+
 
 
 if __name__ == '__main__':
