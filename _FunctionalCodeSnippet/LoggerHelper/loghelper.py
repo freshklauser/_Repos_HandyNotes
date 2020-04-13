@@ -2,7 +2,7 @@
 # @Author: Administrator
 # @Date:   2020-03-31 20:03:30
 # @Last Modified by:   sniky-lyu
-# @Last Modified time: 2020-03-31 20:32:16
+# @Last Modified time: 2020-04-11 19:52:29
 
 
 import os
@@ -54,7 +54,7 @@ class LoggerHelper:
 
     def __create_directory(self):
         dir_abspath = os.path.join(os.getcwd(), self.dir_name)        # 路径连接
-        print(os.getcwd(), dir_abspath)
+        # print(os.getcwd(), dir_abspath)
         try:
             if not os.path.exists(dir_abspath):
                 os.mkdir(dir_abspath)

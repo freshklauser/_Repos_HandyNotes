@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: KlausLyu
 # @Date:   2020-04-08 15:31:14
-# @Last Modified by:   KlausLyu
-# @Last Modified time: 2020-04-10 11:27:54
+# @Last Modified by:   sniky-lyu
+# @Last Modified time: 2020-04-11 18:34:23
 
 
 '''
@@ -28,6 +28,9 @@ Tips:
 '''
 
 
+import os
+
+
 class InstanceAttrDisplay:
     '''实例属性
     Provides an inheritable print overload method that displays instances with
@@ -41,9 +44,9 @@ class InstanceAttrDisplay:
         相比于__repr__, print(inst)会优先调用__str___
         '''
         return '<Instance of {}, address {}:\n{}>'.format(
-                        self.__class__.__name__,
-                        id(self),
-                        self.__gatherAttrs())
+            self.__class__.__name__,
+            id(self),
+            self.__gatherAttrs())
 
     def __repr__(self):
         '''
@@ -59,7 +62,6 @@ class InstanceAttrDisplay:
         return attrs
 
 
-
 class InheritedAttrDisplay:
     '''实例属性+继承属性
     Use dir() to collect both instance attrs and names inherited from its classes.
@@ -70,9 +72,9 @@ class InheritedAttrDisplay:
         相比于__repr__, print(inst)会优先调用__str___
         '''
         return '<Instance of {}, address {}:\n{}>'.format(
-                        self.__class__.__name__,
-                        id(self),
-                        self.__gatherAttrs())
+            self.__class__.__name__,
+            id(self),
+            self.__gatherAttrs())
 
     def __gatherAttrs(self):
         attrs = ''
@@ -96,28 +98,28 @@ class ClassTreeAttributesDisplay:
     def __str__(self):
         self.__visited = {}
         return '<Instance of {}, address {}:\n{}{}>'.format(
-                        self.__class__.__name__,
-                        id(self),
-                        self.__gatherAttrs(self, 0),
-                        self.__gatherClass(self.__class__, 4))
+            self.__class__.__name__,
+            id(self),
+            self.__gatherAttrs(self, 0),
+            self.__gatherClass(self.__class__, 4))
 
     def __gatherClass(self, aClass, indent):
         dot_prefix = '.' * (indent + 4)
         if aClass in self.__visited.keys():
             return '\n{0}<Class {1}, address {2}: (see above)>\n'.format(
-                            dot_prefix,
-                            aClass.__name__,
-                            id(aClass))
+                dot_prefix,
+                aClass.__name__,
+                id(aClass))
         else:
             self.__visited[aClass] = 1              # 1: 访问过
             supercls_iter = (self.__gatherClass(c, indent + 4) for c in aClass.__bases__)
             return '\n{0}<Class {1}, address {2}:\n{3}{4}{5}\n>'.format(
-                            dot_prefix,
-                            aClass.__name__,
-                            id(aClass),
-                            self.__gatherAttrs(aClass, indent),
-                            ''.join(supercls_iter),
-                            dot_prefix)
+                dot_prefix,
+                aClass.__name__,
+                id(aClass),
+                self.__gatherAttrs(aClass, indent),
+                ''.join(supercls_iter),
+                dot_prefix)
 
     def __gatherAttrs(self, obj, indent):
         '''
@@ -136,10 +138,27 @@ class ClassTreeAttributesDisplay:
         return attrs
 
 
+def create_directory(dir_name):
+    dir_abspath = os.path.join(os.getcwd(), dir_name)        # 路径连接
+    # print(os.getcwd(), dir_abspath)
+    try:
+        if not os.path.exists(dir_abspath):
+            os.mkdir(dir_abspath)
+            # print('%s 文件夹创建成功' % self.dir_name)
+        else:
+            # print('%s 文件夹已经存在' % self.dir_name)
+            pass
+        dir_status = 0
+    except Exception as e:
+        print(e)
+        dir_status = 1
+    return dir_status
+
+
 if __name__ == '__main__':
     try:
         x = 1 / 0
-    except:
+    except ZeroDivisionError:
         import sys
         print(sys.exc_info(), '-->', len(sys.exc_info()))
         # (<class 'ZeroDivisionError'>, ZeroDivisionError('division by zero',), <traceback object at 0x0000024219FE9A48>) --> 3
