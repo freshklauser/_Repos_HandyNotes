@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: KlausLyu
 # @Date:   2020-04-08 15:31:14
-# @Last Modified by:   sniky-lyu
-# @Last Modified time: 2020-04-11 18:34:23
+# @Last Modified by:   KlausLyu
+# @Last Modified time: 2020-04-13 09:08:18
 
 
 '''
@@ -139,18 +139,27 @@ class ClassTreeAttributesDisplay:
 
 
 def create_directory(dir_name):
+    '''创建文件夹(如果文件夹不存在)
+
+    Arguments:
+        dir_name {str} -- [文件夹名称]
+
+    Returns:
+        [int] -- [创建文件夹的状态 1：文件夹已存在或创建成功； 0：创建失败]
+    '''
     dir_abspath = os.path.join(os.getcwd(), dir_name)        # 路径连接
     # print(os.getcwd(), dir_abspath)
     try:
-        if not os.path.exists(dir_abspath):
-            os.mkdir(dir_abspath)
-            # print('%s 文件夹创建成功' % self.dir_name)
-        else:
-            # print('%s 文件夹已经存在' % self.dir_name)
-            pass
-        dir_status = 0
+        if os.path.exists(dir_abspath):
+            dir_status = 1
+            print('%s 文件夹已经存在' % dir_name)
+            return dir_status
+        os.mkdir(dir_abspath)
     except Exception as e:
         print(e)
+        dir_status = 0
+    else:
+        print('%s 文件夹创建成功' % dir_name)
         dir_status = 1
     return dir_status
 
@@ -165,3 +174,6 @@ if __name__ == '__main__':
         print('Uncaught!', sys.exc_info()[0], '----', sys.exc_info()[1])
         # sys.exc_info()[0]: 引发异常的类
         # sys.exc_info()[1]: 引发异常的实例对象
+
+        sta = create_directory('logs')
+        print(sta)
