@@ -1,0 +1,61 @@
+<Instance of Manager, address 1748412720240:
+    _ClassTreeAttributesDisplay__visited={}
+    department=sales department
+    job=Manager
+    name=Tom Jones
+    pay=60000
+
+........<Class Manager, address 1748378516824:
+        __doc__=<>
+        __init__=<>
+        __module__=<>
+        giveRaise=<function Manager.giveRaise at 0x0000019715884268>
+
+............<Class Person, address 1748378519656:
+            __del__=<>
+            __doc__=<>
+            __getattr__=<>
+            __init__=<>
+            __module__=<>
+            getJob=<property object at 0x00000197155A5688>
+            giveRaise=<function Person.giveRaise at 0x000001971586A400>
+            lastName=<function Person.lastName at 0x000001971586A7B8>
+
+................<Class ClassTreeAttributesDisplay, address 1748378526264:
+                _ClassTreeAttributesDisplay__gatherAttrs=<function ClassTreeAttributesDisplay.__gatherAttrs at 0x000001971586A510>
+                _ClassTreeAttributesDisplay__gatherClass=<function ClassTreeAttributesDisplay.__gatherClass at 0x000001971586A598>
+                __dict__=<>
+                __doc__=<>
+                __module__=<>
+                __str__=<>
+                __weakref__=<>
+
+....................<Class object, address 1841481088:
+                    __class__=<>
+                    __delattr__=<>
+                    __dir__=<>
+                    __doc__=<>
+                    __eq__=<>
+                    __format__=<>
+                    __ge__=<>
+                    __getattribute__=<>
+                    __gt__=<>
+                    __hash__=<>
+                    __init__=<>
+                    __init_subclass__=<>
+                    __le__=<>
+                    __lt__=<>
+                    __ne__=<>
+                    __new__=<>
+                    __reduce__=<>
+                    __reduce_ex__=<>
+                    __repr__=<>
+                    __setattr__=<>
+                    __sizeof__=<>
+                    __str__=<>
+                    __subclasshook__=<>
+....................
+>................
+>............
+>........
+>>

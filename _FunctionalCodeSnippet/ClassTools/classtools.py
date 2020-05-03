@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: KlausLyu
 # @Date:   2020-04-08 15:31:14
-# @Last Modified by:   KlausLyu
-# @Last Modified time: 2020-04-13 09:08:18
+# @Last Modified by:   sniky-lyu
+# @Last Modified time: 2020-05-01 17:15:58
 
 
 '''
@@ -25,6 +25,29 @@ Tips:
             name：字符串，对象属性。
             default：默认返回值，如果不提供该参数，在没有对应属性时，将触发 AttributeError。
         内置函数getattr执行继承搜索协议，__dict__不会继承搜索
+
+    <20200501, KlausLyu>
+    1) 如果在类中定义了__getitem__()方法，那么他的实例对象（假设为P）就可以这样P[key]取值。
+    当实例对象做P[key]运算时，就会调用类中的__getitem__()方法;
+    2) 可以让对象实现迭代功能（对象可迭代的前提下）
+        -- 解释器需要迭代对象x时， 会自动调用iter(x)方法。内置的 iter(x) 方法有以下作用
+           检查对象是否实现了__inter__ 方法，如果实现了就调用它（也就是我们偶尔用到的特殊方法重载），获取一个迭代器。
+        -- 如果没有实现iter()方法， 但是实现了 __getitem__方法，Python会创建一个迭代器，尝试按顺序
+          （从索引0开始，可以看到我们刚才是通过s[0]取值）获取元素。
+        -- 如果尝试失败，Python抛出TypeError异常，通常会提示TypeError: '***' object is not iterable。
+    Example:
+
+    序列最重要的特征就是可包含多个元素， 因此和序列有关的特殊方法有如下几个：
+        __len__(self)：该方法的返回值决定序列中元素的个数。
+        __getitem__(self, key)：该方法获取指定索引对应的元素。该方法的 key 应该是整数值或 slice 对象，否则该方法会引发 KeyError 异常。
+        __contains__(self, item)：该方法判断序列是否包含指定元素。
+        __setitem__(self, key, value)：该方法设置指定索引对应的元素。该方法的 key 应该是整数值或 slice 对象，否则该方法会引发 KeyError 异常。
+        __delitem__(self, key)：该方法删除指定索引对应的元素。
+
+
+    修改记录：
+        【20200501，KlausLyu】:
+            添加关于 __getitem__ 魔方方法的内容到 docstring
 '''
 
 
