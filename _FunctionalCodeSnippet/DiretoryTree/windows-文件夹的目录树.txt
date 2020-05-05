@@ -1,0 +1,10 @@
+>>> 使用tree命令导出windows的文件夹/文件的目录树
+tree语法: 
+	TREE [drive:][path] [/F] [/A]
+	   /F   显示每个文件夹中文件的名称。（带扩展名） ---> 文件夹和文件
+	   /A   使用 ASCII 字符，而不使用扩展字符。 	 ---> 文件夹(不显示文件的结构树)
+	
+将带扩展名的文件目录输出到list.txt文件中，tree /f > list.txt  
+将不用扩展名的文件目录输出到list.txt文件中，tree /a > list.txt 
+
+

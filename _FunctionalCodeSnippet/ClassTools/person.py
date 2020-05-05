@@ -2,7 +2,7 @@
 # @Author: sniky-lyu
 # @Date:   2020-04-08 21:48:40
 # @Last Modified by:   sniky-lyu
-# @Last Modified time: 2020-04-11 21:33:57
+# @Last Modified time: 2020-05-03 13:06:31
 
 
 '''
@@ -31,7 +31,7 @@ getattr():
 '''
 
 from decorators import decorator_timmer
-# from classtools import InstanceAttrDisplay, InheritedAttrDisplay
+from classtools import InstanceAttrDisplay, InheritedAttrDisplay
 from classtools import ClassTreeAttributesDisplay
 
 
@@ -150,3 +150,5 @@ if __name__ == '__main__':
     print("tom's lastName: ", tom.lastName())
     # 加 @property: getJob方法利用属性进行了装饰, 需要按照属性的规则调用， Person().getJob   --- getJob后不能加()
     print("tom's job: ", tom.getJob)
+
+    print(tom, file=open('class_tree.txt', 'w'))
