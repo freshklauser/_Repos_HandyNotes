@@ -1,36 +1,36 @@
-<Instance of Manager, address 1748412720240:
+<Instance of Manager, address 1885391013928:
     _ClassTreeAttributesDisplay__visited={}
     department=sales department
     job=Manager
     name=Tom Jones
     pay=60000
 
-........<Class Manager, address 1748378516824:
+........<Class Manager, address 1885389756296:
         __doc__=<>
         __init__=<>
         __module__=<>
-        giveRaise=<function Manager.giveRaise at 0x0000019715884268>
+        giveRaise=<function Manager.giveRaise at 0x000001B6FA1372F0>
 
-............<Class Person, address 1748378519656:
+............<Class Person, address 1885389753464:
             __del__=<>
             __doc__=<>
             __getattr__=<>
             __init__=<>
             __module__=<>
-            getJob=<property object at 0x00000197155A5688>
-            giveRaise=<function Person.giveRaise at 0x000001971586A400>
-            lastName=<function Person.lastName at 0x000001971586A7B8>
+            getJob=<property object at 0x000001B6F9E57548>
+            giveRaise=<function Person.giveRaise at 0x000001B6FA119488>
+            lastName=<function Person.lastName at 0x000001B6FA119840>
 
-................<Class ClassTreeAttributesDisplay, address 1748378526264:
-                _ClassTreeAttributesDisplay__gatherAttrs=<function ClassTreeAttributesDisplay.__gatherAttrs at 0x000001971586A510>
-                _ClassTreeAttributesDisplay__gatherClass=<function ClassTreeAttributesDisplay.__gatherClass at 0x000001971586A598>
+................<Class ClassTreeAttributesDisplay, address 1885389748744:
+                _ClassTreeAttributesDisplay__gatherAttrs=<function ClassTreeAttributesDisplay.__gatherAttrs at 0x000001B6FA119598>
+                _ClassTreeAttributesDisplay__gatherClass=<function ClassTreeAttributesDisplay.__gatherClass at 0x000001B6FA119620>
                 __dict__=<>
                 __doc__=<>
                 __module__=<>
                 __str__=<>
                 __weakref__=<>
 
-....................<Class object, address 1841481088:
+....................<Class object, address 1730921856:
                     __class__=<>
                     __delattr__=<>
                     __dir__=<>
