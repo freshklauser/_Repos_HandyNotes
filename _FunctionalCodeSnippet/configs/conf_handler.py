@@ -39,9 +39,22 @@ class ConfigHandler:
     def get_db_table(self):
         return self.get_options('db_table')
 
+    @property
+    def get_mysql(self):
+        return self.get_options('mysql')
+
+    @property
+    def mysql_conf(self):
+        return self.parser.items('mysql')
+
+    @property
+    def sqlite_conf(self):
+        return self.parser.items('sqlite3')
+
 
 class SqliteHandler:
-
+    REFER = 'https://blog.csdn.net/qq_40302523/article/details/86252919'
+    
     def __init__(self, db_path):
         """
         初始化参数，创建数据库连接
@@ -56,3 +69,7 @@ if __name__ == '__main__':
     print(obj.get_options('sqlite3'))
     print(obj.get_http)
     print(obj.get_db_table)
+    print(obj.mysql_conf)
+    print(obj.sqlite_conf)
+    # TODO: refer https://blog.csdn.net/songlh1234/article/details/83316468?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-4
+
