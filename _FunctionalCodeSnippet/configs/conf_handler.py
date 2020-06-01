@@ -26,35 +26,43 @@ class ConfigHandler:
 
     @property
     def get_sections(self):
+        """ 获取配置参数所有 sections """
         return self.parser.sections()
 
     def get_options(self, section):
+        """ 获取配置参数中指定 section 下的 key """
         return self.parser.options(section)
 
     @property
     def get_http(self):
+        """ 获取配置参数的 "http" 下的 key """
         return self.get_options('http')
 
     @property
     def get_db_table(self):
+        """ 获取配置参数的 'db_table' 下的 key """
         return self.get_options('db_table')
 
     @property
     def get_mysql(self):
+        """ 获取配置参数的 'mysql' 下的 key """
         return self.get_options('mysql')
 
     @property
     def mysql_conf(self):
+        """ 获取配置参数 'mysql' 的元组 (key, value) """
         return self.parser.items('mysql')
 
     @property
     def sqlite_conf(self):
+        """ 获取配置参数 'sqlite3' 的元组 (key, value) """
         return self.parser.items('sqlite3')
 
 
 class SqliteHandler:
     REFER = 'https://blog.csdn.net/qq_40302523/article/details/86252919'
-    
+
+    # TODO-2: dataframe 写入 .db 的封装类
     def __init__(self, db_path):
         """
         初始化参数，创建数据库连接
@@ -69,7 +77,8 @@ if __name__ == '__main__':
     print(obj.get_options('sqlite3'))
     print(obj.get_http)
     print(obj.get_db_table)
+    print(obj.get_mysql, '===')
     print(obj.mysql_conf)
     print(obj.sqlite_conf)
-    # TODO: refer https://blog.csdn.net/songlh1234/article/details/83316468?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-4
+    # TODO-1: refer https://blog.csdn.net/songlh1234/article/details/83316468?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-4
 
