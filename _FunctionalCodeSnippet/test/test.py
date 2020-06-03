@@ -7,7 +7,7 @@
 
 import configparser
 
-from _FunctionalCodeSnippet.configs import conf_handler
+from _FunctionalCodeSnippet.Configs import conf_handler
 from _FunctionalCodeSnippet.ClassTools import constant
 
 # 定义常量
