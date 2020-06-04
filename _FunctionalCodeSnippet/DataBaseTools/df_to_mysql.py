@@ -40,12 +40,12 @@ class DataFrameToMysql:
         Initialize mysql engine.
         """
         params = self.db_conf
-        eng = 'mysql+pymysql://{user}:{password}@{host}:{port}/{database}'.format(
+        eng = 'mysql+pymysql://{user}:{passwd}@{host}:{port}/{db}'.format(
             user=params.user,
-            password=params.password,
+            passwd=params.passwd,
             host=params.host,
             port=params.port,
-            database=params.database
+            db=params.db
         )
         try:
             engine = create_engine(eng, encoding='utf-8')
@@ -62,6 +62,7 @@ class DataFrameToMysql:
         """
         Transfer a DataFrame to mysql database.
         No need to build the table in db in advance.
+        Default, str to TEXT
         conn: default None, engine will be automatically called in function
         """
         if isinstance(data_frame, pd.DataFrame) \
@@ -87,7 +88,15 @@ if __name__ == '__main__':
     obj = DataFrameToMysql('mysql')
     conf = obj.db_conf
     print(conf.keys(), conf.host, conf.user)
-    df = pd.DataFrame(np.arange(1, 13).reshape((4, 3)),
+    df = pd.DataFrame(np.arange(101, 113).reshape((4, 3)),
                       columns=list('abc'))
     print(df)
-    obj.df_to_mysql(df, 'numbers')
+    tm = pd.DataFrame(pd.date_range('2020-06-01', '2020-06-04'), columns=['g'])
+    print(tm)
+    tmp = pd.DataFrame([['age', 'as'], ['tom', 'tim'], ['hi', 'she'], ['she', 'iet']], columns=['d', 'e'])
+    tmp = pd.concat([df, tmp, tm], axis=1)
+    print(tmp)
+    # print(tmp.dtypes)
+    # obj.df_to_mysql(tmp, 'student')
+
+    # 逐行读取dataframe数据，写入mysql
