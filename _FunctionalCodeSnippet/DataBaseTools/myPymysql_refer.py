@@ -64,7 +64,7 @@ class DbHelper:
 
 
 if __name__ == '__main__':
-    dbhelper = DBHelper()
+    dbhelper = DbHelper()
     # print(dbhelper.connectDataBase())
     # title = "英雄本色"
     # actor = "周润发"
@@ -82,4 +82,4 @@ if __name__ == '__main__':
     print(dbhelper.close())
 
 
-logger.removeHandler(file_handler)
+    logger.removeHandler(file_handler)
