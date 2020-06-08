@@ -1,0 +1,84 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SUSE LINUX <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+anaconda版本： Anaconda3-5.2.0-Linux-x86_64.sh  
+下载地址：
+	https://repo.anaconda.com/archive/    (官方源)
+	https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/  (清华镜像源)
+	
+	
+安装：
+	（1）校验文件完整性：
+		源文件hashs： https://docs.anaconda.com/anaconda/install/hashes/all/
+		官方：Anaconda3-5.2.0-Linux-x86_64.sh 	621.6 MiB 	2018-05-30 13:05:43 	09f53738b0cd3bb96f5b1bac488e5528df9906be2480fe61df40e0e0d19e3d48
+		命令：$ sha256sum Anaconda3-5.2.0-Linux-x86_64.sh
+			[klaus@messi Documents]$ sha256sum Anaconda3-5.2.0-Linux-x86_64.sh 
+			09f53738b0cd3bb96f5b1bac488e5528df9906be2480fe61df40e0e0d19e3d48  Anaconda3-5.2.0-Linux-x86_64.sh
+	（2）安装：
+		命令：$ bash Anaconda3-5.2.0-Linux-x86_64.sh
+			[yes/no]问题, 安装路径问题，直接yes 或 enter过即可
+			在安装快结束时, Anaconda Python 安装程序可能会问你是否要在 CentOS 7的 PATH 变量中添加 Anaconda Python。 这样你就可以在不指定完整的安装路径的情况下执行蟒蛇。 大多数人都希望这样。 所以输入'yes'然后按回车继续。
+	（3）验证：
+			  $ conda --version
+	（4）如何忘记选择添加环境变量，可手动添加(profile中的应该不用source就可以吧？？)
+		 可在 ~/.bashrc 中添加，也可在 /etc/profile 中添加
+		$ sudo vim /etc/profile
+			# set anaconda
+			export PATH=/home/klaus/anaconda3/bin:$PATH
+		$ source /etc/profile
+
+卸载：
+	直接删除安装路径下的 anaconda 文件夹
+
+
+虚拟环境搭建：
+	# 具体库见requirement.txt，有新的库需要安装直接在里面添加
+
+	安装步骤：
+	1. 创建conda虚拟环境
+		conda create --name py36 python=3.6.5
+	2. 激活环境
+		conda activate py36
+	3. 在py36虚拟环境下安装spyder
+		conda install spyder
+	4. 在py36虚拟环境下批量安装python库 (pip freeze )
+		pip install -r requirement.txt
+		
+	5. 在jupter notebook中添加虚拟环境下的kernel
+		python -m ipykernel install --name py36
+		
+	6. 若离线安装(.whl文件)
+		pip install xxxxx.whl
+		
+		
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SUSE LINUX <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+SUSE linux安装python库：
+	???????????????????????????????
+	可参考 ？ https://www.cnblogs.com/wglIT/p/7525046.html
+	
+
+
+TIPS:
+	# numpy==1.17.4与tensorflow=1.12.0会有冲突，卸载后安装numpy=1.16.4
+
+	# python库的导出和批量安装与卸载
+	pip freeze 	# 显示已经安装的包名及其版本
+	pip freeze > requirement.txt  # 将已经安装的包名及其版本写入txt文件
+	pip install -r requirement.txt	# pip 批量安装包/库
+	pip uninstall -r requirement.txt	# 批量卸载包
+
+
+	# 数据结构
+	pip install binarytree
+
+	# 自然语言处理 
+	conda install nltk
+	# python
+	import nltk
+	nltk.download()
+
+
+# --------------------------------------------------------------------------
+anaconda -- python 版本对应关系：Anaconda3-5.2.0 (python 3.6.5)
+版本对应关系refer: https://blog.csdn.net/yuejisuo1948/article/details/81043823
+anaconda安装源文件refer: 
+	https://repo.anaconda.com/archive/    (官方源)
+	https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/  (清华镜像源)
