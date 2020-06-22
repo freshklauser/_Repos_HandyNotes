@@ -14,11 +14,11 @@ from _FunctionalCodeSnippet.ClassTools import constant
 constant.NAME = "klaus"
 constant.AGE = 18
 
-NA_YES_COLUMNS = ('name', 'nicky', 'birthday', 'timer')
+# NA_YES_COLUMNS = ('name', 'nicky', 'birthday', 'timer')
 
-print(NA_YES_COLUMNS[1])
-
-
-# constant.AGE = 15
-
-obj = conf_handler.ConfigHandler()
+# print(NA_YES_COLUMNS[1])
+#
+#
+# # constant.AGE = 15
+#
+# obj = conf_handler.ConfigHandler()
