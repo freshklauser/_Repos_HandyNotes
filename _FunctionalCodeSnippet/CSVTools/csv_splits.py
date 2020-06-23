@@ -21,10 +21,10 @@ vendor字段去掉， 规则提取和终端识别用不上该字段
 
 import numpy as np
 import os
-import pandas as pd
+from _Modules import pandas as pd
 import random
 
-from columns import L0_LIST, FEATURES_LIST, branch, LABELS
+from columns import FEATURES_LIST, branch, LABELS
 
 CSV_OUTPUT_PATH = os.path.realpath('E:\_Jun\_Python\csvfiles')
 SUMMARY_TABLE = 'features_summary_table.csv'

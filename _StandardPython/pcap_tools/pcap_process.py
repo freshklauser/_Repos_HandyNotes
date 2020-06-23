@@ -5,7 +5,7 @@
 # @SoftWare : PyCharm
 
 
-import pandas as pd
+from _Modules import pandas as pd
 
 
 class PcapHandler:

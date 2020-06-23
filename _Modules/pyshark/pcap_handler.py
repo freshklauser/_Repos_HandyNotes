@@ -4,9 +4,6 @@
 # @FileName : pcap_handler.py
 # @SoftWare : PyCharm
 
-import os
-import json
-import pandas as pd
 import pyshark
 
 PCAP_PKGS = "capture_test.pcapng"

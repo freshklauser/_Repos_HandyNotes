@@ -9,8 +9,6 @@ packages = {'tcp': [p1, p2, p3, ...], 'http': [h1, h2, ...]}
 """
 
 import os
-import pandas as pd
-import numpy as np
 import pyshark
 
 # 路径统一通过 path_params.py 文件引用
