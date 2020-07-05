@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "remove"
+cd ~/Documents
+rm -rf notes
+mkdir -p notes
+
+echo "copy"
+cp -r notes_bak_1/* notes
