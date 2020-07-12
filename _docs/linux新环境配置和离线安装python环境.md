@@ -258,7 +258,9 @@ groupadd：“docker”组已存在
 
 ### 3.2 python镜像
 
-- 1）python dockerfile
+有网环境下构建python镜像并创建应用容器
+
+- 1）python基础环境 dockerfile
 
 ```
 FROM python:3.6.5
@@ -270,11 +272,55 @@ RUN python -m pip install --upgrade pip \
     && pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-- 2）构建镜像
+```
+# python应用部署示例
+FROM ubuntu:16.04
+
+MAINTAINER jhao104 "j_hao104@163.com"
+
+RUN apt-get update -y && \  
+apt-get install -y python3-pip python3-dev
+
+COPY ./requirements.txt /requirements.txt
+
+WORKDIR /
+
+RUN pip3 install -r requirements.txt
+
+COPY . /
+
+ENTRYPOINT [ "python3" ]
+
+CMD [ "app/app.py" ] 
+```
+
+- 2）构建python基础环境镜像
 
 ```
 docker build -t py36:rule_v1 . -f Dockerfile_py36
 ```
 
+​	测试python镜像构建容器：
 
+```
+# 使用python镜像运行程序
+[klaus@messi ~]$ docker run -v $PWD/myapp:/usr/src/myapp -w /usr/src/myapp py36:rule_v1 python test.py
+hello world
+# 说明：
+	命令说明：
+    -v $PWD/myapp:/usr/src/myapp: 将主机中当前目录下的 myapp 挂载到容器的 /usr/src/myapp。
+    -w /usr/src/myapp: 指定容器的 /usr/src/myapp 目录为工作目录。
+    python helloworld.py: 使用容器的 python 命令来执行工作目录中的 helloworld.py 文件
+
+# 创建并后台运行容器（程序代码拷贝至容器中的/usr/src/myapp目录下，并指定该目录为工作目录）
+[klaus@messi ~]$ docker run -v $PWD/myapp:/usr/src/myapp -w /usr/src/myapp -itd --name pyapp py36:rule_v1
+e0ff70f5bab86dee5fb82e6893ff321c8b5887318f5a5352fe6a056997cc7b11
+[klaus@messi ~]$ docker exec -it pyapp /bin/bash
+root@e0ff70f5bab8:/usr/src/myapp# ls
+test.py
+root@e0ff70f5bab8:/usr/src/myapp# python test.py 
+hello world
+```
+
+- 3）应用部署（dockerfile构建python应用镜像）
 
