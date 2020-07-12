@@ -5,18 +5,17 @@
 # @SoftWare : PyCharm
 
 
-# 返回一个随机的请求头 headers
+import os
+
+import pandas as pd
 import random
 
+
 from fake_useragent import UserAgent
-from ua_parser import user_agent_parser
-from user_agents import parse
+import user_agents
 
-
-def parser_ua(ua_string):
-    user_agent = parse(ua_string)
-    # user_agent = user_agent_parser(ua_string)
-    return user_agent
+ua_csv_path = os.path.realpath('./user_agents.csv')
+UA_DF = pd.read_csv(ua_csv_path, encoding='utf-8')
 
 
 def get_fake_ua():
@@ -26,6 +25,10 @@ def get_fake_ua():
 
 
 def getheaders():
+    """
+    随机选择ua
+    :return:
+    """
     # 各种PC端
     user_agent_list_2 = [
         # Opera
@@ -115,27 +118,79 @@ def getheaders():
         "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
         "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
-    ]
-    user_agent_list = user_agent_list_1 + user_agent_list_2 + user_agent_list_3;
+        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"]
+    user_agent_list = user_agent_list_1 + user_agent_list_2 + user_agent_list_3
     UserAgent = random.choice(user_agent_list)
     headers = {'User-Agent': UserAgent}
+    # save to csv
+    ua_list = [[i + 1, item] for i, item in enumerate(user_agent_list)]
+    user_agent = pd.DataFrame(ua_list, columns=['id', 'user_agent'])
+    user_agent.to_csv('user_agents.csv', index=False, encoding='utf-8')
     return headers
 
 
+def parser_ua(ua_string):
+    """
+    解析单条user_agent
+    :param ua_string:
+    :return:
+    """
+    ua_property = []
+    try:
+        user_agent = user_agents.parse(ua_string)
+    except Exception:
+        raise
+    else:
+        device_family = user_agent.device.family
+        device_brand = user_agent.device.brand
+        device_model = user_agent.device.model
+        os_family = user_agent.os.family
+        os_version = user_agent.os.version_string
+        browser_family = user_agent.browser.family
+        browser_version = user_agent.browser.version_string
+        is_mobile = user_agent.is_mobile
+        is_tablet = user_agent.is_tablet
+        is_pc = user_agent.is_pc
+        is_bot = user_agent.is_bot
+        is_email = user_agent.is_email_client
+        ua_property.extend([device_family, device_brand, device_model,
+                            os_family, os_version, browser_family, browser_version,
+                            is_mobile, is_tablet, is_pc, is_bot, is_email])
+    return ua_property
+
+
+def parse_ua_batch(ua_df):
+    """
+    批量解析ua
+    :param ua_df: columns=[id, user_agent]
+    :return: ua_parsed_df: columns=[id, device_family, device_brand, device_model,
+                                    os_family, os_version, browser_family, browser_version, user_agent]
+    """
+    cols_target = ['device_family', 'device_brand', 'device_model',
+                   'os_family', 'os_version', 'browser_family', 'browser_version',
+                   'is_mobile', 'is_tablet', 'is_pc', 'is_bot', 'is_email']
+    ua_property = ua_df['user_agent'].apply(lambda x: parser_ua(x)).tolist()
+    ua_property_df = pd.DataFrame(ua_property, columns=cols_target)
+    new_ua_info = pd.concat(objs=[ua_df, ua_property_df], axis=1)
+    new_ua_info = new_ua_info.reindex(columns=['id'] + cols_target + ['user_agent'])
+    return new_ua_info
+
+
 if __name__ == '__main__':
+    ua_parsered = parse_ua_batch(UA_DF)
+    print(ua_parsered.iloc[:, :4])
+
     # header = getheaders()
     # print(header)
 
-    fake_ua = get_fake_ua()
-    print(fake_ua)
-
+    # fake_ua = get_fake_ua()
+    # print(fake_ua)
     # parser
-    ua_string = 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3'
-    ua = parser_ua(ua_string)
-    print(ua)
-    print(ua.is_mobile)
-    print(ua.is_pc)
-    print(ua.is_tablet)
-    dev = ua.device
-    print(dev)
+    # ua_string = 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3'
+    # ua = parser_ua(ua_string)
+    # print(ua)
+    # print(ua.is_mobile)
+    # print(ua.is_pc)
+    # print(ua.is_tablet)
+    # dev = ua.device
+    # print(dev)
