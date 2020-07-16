@@ -148,7 +148,24 @@ yum -y install wireshark-gnome
     ......
   ```
 
+
+
+
+- cmake: `https://www.jianshu.com/p/4c55642ed358`,需要配置全局
+
+- libcap： 
+
+  ```
+  tar -xvf tar -xvf /home/Private/Compressed/libpcap-libpcap-1.9.0.tar.gz -C ./ 
+  cd libpcap-libpcap-1.9.0 
+  ./configure && make && make install
+  ```
+
   
+
+- wireshark
+
+
 
 ## 3. docker离线部署服务器环境
 
@@ -303,8 +320,9 @@ docker build -t py36:rule_v1 . -f Dockerfile_py36
 ​	测试python镜像构建容器：
 
 ```
-# 使用python镜像构建的容器的python环境执行程序后删除镜像
-[klaus@messi myapp]$ docker run -v $PWD:/usr/src/myapp -w /usr/src/myapp -it --rm --name pyapp py36:rule_v1 python test.py
+推荐2
+# 使用python镜像构建的容器的python环境执行程序后删除镜像（每次执行完删除容器, 可随时更换挂载的宿主机主程序目录）
+[klaus@messi myapp]$ docker run -v /home/klaus/myapp:/usr/src/myapp -w /usr/src/myapp -it --rm --name pyapp py36:rule_v1 python test.py
 hello world
 # 说明：
 	命令说明：
@@ -312,11 +330,12 @@ hello world
     -w /usr/src/myapp: 指定容器的 /usr/src/myapp 目录为工作目录。
     python helloworld.py: 使用容器的 python 命令来执行工作目录中的 helloworld.py 文件
 
-# 使用python镜像构建容器并保持容器运行，利用docker容器中的python解释器执行宿主机.py文件（需要挂载）
-------------------------------------------
+
+# 使用python镜像构建容器并保持容器运行，利用docker容器中的python解释器执行宿主机.py文件（需要挂载，建议固定主程序目录）
+-----------------------------------------------------------------------------------------
 docker run -v $PWD:/usr/src/myapp -w /usr/src/myapp -itd --name pyenv py36:rule_v1
 docker exec -it pyenv python test.py
-------------------------------------------
+-----------------------------------------------------------------------------------------
 [klaus@messi myapp]$ docker run -v $PWD:/usr/src/myapp -w /usr/src/myapp -itd --name pyenv py36:rule_v1
 [klaus@messi myapp]$ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
@@ -333,16 +352,6 @@ hello world
 AttrDict({'name': 'tim'})
 # /usr/local/bin/python为容器中默认的python解释器路径
 # /home/klaus/anaconda3/bin/python 为宿主机中的python解释器路径
-
-# 创建并后台运行容器（程序代码拷贝至容器中的/usr/src/myapp目录下，并指定该目录为工作目录）
-[klaus@messi ~]$ docker run -v $PWD/myapp:/usr/src/myapp -w /usr/src/myapp -itd --name pyapp py36:rule_v1
-e0ff70f5bab86dee5fb82e6893ff321c8b5887318f5a5352fe6a056997cc7b11
-[klaus@messi ~]$ docker exec -it pyapp /bin/bash
-root@e0ff70f5bab8:/usr/src/myapp# ls
-test.py
-root@e0ff70f5bab8:/usr/src/myapp# python test.py 
-hello world
-
 
 ```
 
