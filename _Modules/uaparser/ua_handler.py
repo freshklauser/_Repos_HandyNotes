@@ -7,15 +7,19 @@
 
 import os
 
+import numpy as np
 import pandas as pd
 import random
-
 
 from fake_useragent import UserAgent
 import user_agents
 
 ua_csv_path = os.path.realpath('./user_agents.csv')
 UA_DF = pd.read_csv(ua_csv_path, encoding='utf-8')
+# 打乱UA_DF的行序
+UA_DF = UA_DF.sample(frac=1, random_state=11)
+print(UA_DF['user_agent'].unique().shape[0])
+# UA_DF = UA_DF.reindex(np.random.permutation(UA_DF.index))
 
 
 def get_fake_ua():

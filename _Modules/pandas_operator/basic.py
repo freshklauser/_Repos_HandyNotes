@@ -6,6 +6,9 @@
 
 """
 DataFrame SettingWithCopyWarning
+Series矢量化运算：
+    ua_df_new = ua_df['ua_info'].str.split(',', expand=True)
+    ua_df_new = ua_df_new.reindex(columns=cols_target)
 """
 
 import pdb
@@ -80,3 +83,8 @@ print('++'*15)
 
 print(help(pdb))
 
+# 单列(元素为字符，按,拆分)拆分为多列 -- 矢量化操作
+# Series的矢量化运算：
+#   df_splited = df['target'].str.split(',')
+#   df = pd.concat([df, df_splited])
+# ua_df[cols_target] = ua_df['ua_info'].str.split(',', expand=True)

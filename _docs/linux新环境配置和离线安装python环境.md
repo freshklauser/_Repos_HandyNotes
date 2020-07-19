@@ -357,3 +357,32 @@ AttrDict({'name': 'tim'})
 
 - 3）应用部署（dockerfile构建python应用镜像）
 
+
+
+
+
+## 4. neo4j
+
+- docker部署
+
+```
+[klaus@messi neo4j]$ docker pull neo4j:3.5.20
+
+[klaus@messi neo4j]$ docker run -idt -v $PWD/data:/data -v $PWD/import:/import -p 7474:7474 -p 7687:7687 --restart=always --name neo4j_server neo4j:3.5.20
+
+# 可实现远程访问
+http://<ip>:7474
+
+# 进入容器中的neo4j命令行模式
+[klaus@messi ~]$ docker exec -it neo4j_server bin/cypher-shell
+username: neo4j
+password: *********
+Connected to Neo4j 3.5.20 at bolt://localhost:7687 as user neo4j.
+Type :help for a list of available commands or :exit to exit the shell.
+Note that Cypher queries must end with a semicolon.
+neo4j> 
+```
+
+
+
+- 直接部署不知道为什么在自己电脑上无法实现远程，neo4j.conf 里面的都修改过也不行
