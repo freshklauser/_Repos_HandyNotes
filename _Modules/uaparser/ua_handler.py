@@ -14,6 +14,8 @@ import random
 from fake_useragent import UserAgent
 import user_agents
 
+pd.set_option('display.max_columns', None)
+
 ua_csv_path = os.path.realpath('./user_agents.csv')
 UA_DF = pd.read_csv(ua_csv_path, encoding='utf-8')
 # 打乱UA_DF的行序
@@ -182,7 +184,8 @@ def parse_ua_batch(ua_df):
 
 if __name__ == '__main__':
     ua_parsered = parse_ua_batch(UA_DF)
-    print(ua_parsered.iloc[:, :4])
+    print(ua_parsered.iloc[:, :-7])
+    print(ua_parsered.columns)
 
     # header = getheaders()
     # print(header)
