@@ -1,0 +1,84 @@
+
+
+
+# -----------------------splite line-------------------------
+------> 离线安装python并创建虚拟环境(非anaconda)
+1. 源码安装python软件包
+# 1.安装依赖包
+安装python3.6需要的依赖包如下：
+yum -y groupinstall "Development tools"
+yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
+安装python3.7还需要额外的依赖包：
+yum install libffi-devel -y
+# 2.下载python
+cd ~/Downloads
+wget https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz
+# 3.编译安装
+tar -xvJf Python-3.6.5.tar.xz
+cd Python-3.6.5
+./configure --prefix=/usr/local/python3
+make $$ make install
+# 4.创建软连接
+ln -s /usr/local/python3/bin/python3 /usr/bin/python3
+ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
+# NOTES: 这里python3使用不习惯，可能会将系统默认的python软连接删除，将新安装的python3软连接为python
+		 ----> 这样会导致其他依赖python的命令出问题，如yum, 亲测，因此，不要随便删除系统自带的python的任何文件
+
+
+# -------- 以上python也可用ananconda，创建virtual时绝对路径知名python即可 -----
+# NOTES:
+    使用virtualenv 创建虚拟环境的话，使用pip时强烈建议使用绝对路径的pip来安装库
+2. 安装虚拟环境(环境统一放在一个地方，如 ~/app/env/中)
+# 1.安装virtualenv
+yum install python-virtualenv
+# 2.创建虚拟环境(cd到~/app/env中),-p指定使用哪一个python来创建虚拟环境(不加-p则env中的python不纯净，会有多个版本)
+virtualenv --no-site-packages -p /usr/local/python3/bin/python3 tfenv
+cd tfenv
+source tfenv/bin/activate
+# 3.安装环境需要的包
+sudo ln -s /home/sniky/app/env/tornadoenv/bin/pip /usr/bin/pip-tornadoenv
+pip-tornadoenv install -r requirements.txt
+# 3.激活和退出环境
+source /home/sniky/app/env/tornadoenv/bin/activate
+deactivate
+
+
+---->
+[sniky@localhost tornadoenv]$ ./bin/python
+Python 3.6.5 (default, Aug  1 2020, 17:34:58) 
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import attrdict
+>>> 
+
+---->
+ky@localhost app]$ python3 
+Python 3.6.5 (default, Aug  1 2020, 17:34:58) 
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import attrdict
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'attrdict'
+
+
+# ------------------- 虚拟环境下使用pip ----------------------
+NOTES: 激活虚拟环境后使用的pip就是虚拟环境中的pip,安装库都在虚拟环境内
+----> tornadoenv中已安装attrdict, 系统默认环境中未装attrdict情况下： 
+(tornadoenv) [sniky@localhost ~]$ pip install attrdict
+Requirement already satisfied: attrdict in ./app/env/tornadoenv/lib/python3.6/site-packages
+Requirement already satisfied: six in ./app/env/tornadoenv/lib/python3.6/site-packages (from attrdict)
+You are using pip version 9.0.1, however version 20.2 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+
+[sniky@localhost ~]$ sudo pip3 install attrdict
+[sudo] sniky 的密码：
+Collecting attrdict
+  Downloading https://files.pythonhosted.org/packages/ef/97/28fe7e68bc7adfce67d4339756e85e9fcf3c6fd7f0c0781695352b70472c/attrdict-2.0.1-py2.py3-none-any.whl
+Collecting six (from attrdict)
+  Downloading https://files.pythonhosted.org/packages/ee/ff/48bde5c0f013094d729fe4b0316ba2a24774b3ff1c52d924a8a4cb04078a/six-1.15.0-py2.py3-none-any.whl
+Installing collected packages: six, attrdict
+Successfully installed attrdict-2.0.1 six-1.15.0
+You are using pip version 9.0.3, however version 20.2 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+

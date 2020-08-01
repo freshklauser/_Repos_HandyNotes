@@ -1,0 +1,21 @@
+REFER: https://github.com/sniky-lyu/knowledge/blob/master/%E9%83%A8%E7%BD%B2/centos%E9%83%A8%E7%BD%B2.md
+
+# --------------------- 安装 nginx -----------------------------
+1. 添加 nginx 存储库
+	yum install epel-release
+2. 安装nginx
+	yum install nginx
+3. 如果您正在运行防火墙，请运行以下命令以允许HTTP和HTTPS通信：
+	sudo firewall-cmd --permanent --zone=public --add-service=http 
+	sudo firewall-cmd --permanent --zone=public --add-service=https
+	sudo firewall-cmd --reload
+4. 运行nginx --- Nginx不会自行启动。要运行Nginx
+	systemctl start nginx
+	nginx的运行命令：
+	systemctl status nginx 查看nginx的状态
+	systemctl start/stop/enable/disable nginx 启动/关闭/设置开机启动/禁止开机启动
+5. 系统启动时启用Nginx
+	systemctl enable nginx
+
+
+nginx参数目录：/etc/nginx
