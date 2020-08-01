@@ -133,7 +133,7 @@ def get_rule_id_wrong(rule_path):
 if __name__ == '__main__':
     fn_dev = 'device_tree.csv'
     fn_rule = 'rule.csv'
-    fn_flag = False
+    fn_flag = True
     if fn_flag:
         generate_csv(dev_cols, fn_dev)
         generate_csv(rule_cols, fn_rule)

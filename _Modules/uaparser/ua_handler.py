@@ -15,11 +15,13 @@ from fake_useragent import UserAgent
 import user_agents
 
 pd.set_option('display.max_columns', None)
+# pd.set_option('display.max_rows', None)
 
 ua_csv_path = os.path.realpath('./user_agents.csv')
 UA_DF = pd.read_csv(ua_csv_path, encoding='utf-8')
 # 打乱UA_DF的行序
 UA_DF = UA_DF.sample(frac=1, random_state=11)
+print(UA_DF)
 print(UA_DF['user_agent'].unique().shape[0])
 # UA_DF = UA_DF.reindex(np.random.permutation(UA_DF.index))
 
@@ -135,13 +137,13 @@ def getheaders():
     return headers
 
 
-def parser_ua(ua_string):
+def parser_ua(ua_string, is_entire=True):
     """
     解析单条user_agent
     :param ua_string:
+    :param is_entire: 是否全部保存, True:list_all; False:string rule
     :return:
     """
-    ua_property = []
     try:
         user_agent = user_agents.parse(ua_string)
     except Exception:
@@ -159,10 +161,22 @@ def parser_ua(ua_string):
         is_pc = user_agent.is_pc
         is_bot = user_agent.is_bot
         is_email = user_agent.is_email_client
-        ua_property.extend([device_family, device_brand, device_model,
-                            os_family, os_version, browser_family, browser_version,
-                            is_mobile, is_tablet, is_pc, is_bot, is_email])
-    return ua_property
+        target_list = [device_family, device_brand, device_model,
+                       os_family, os_version, browser_family, browser_version,
+                       is_mobile, is_tablet, is_pc, is_bot, is_email]
+        if is_entire:
+            ua_property = []
+            ua_property.extend(target_list)
+            return ua_property
+        else:
+            if device_family.lower() == 'other':
+                res = str(browser_version.split('.')[0])
+            else:
+                if device_family == device_model:
+                    res = device_family
+                else:
+                    res = device_family + '####' + device_model
+            return res
 
 
 def parse_ua_batch(ua_df):
@@ -175,17 +189,45 @@ def parse_ua_batch(ua_df):
     cols_target = ['device_family', 'device_brand', 'device_model',
                    'os_family', 'os_version', 'browser_family', 'browser_version',
                    'is_mobile', 'is_tablet', 'is_pc', 'is_bot', 'is_email']
-    ua_property = ua_df['user_agent'].apply(lambda x: parser_ua(x)).tolist()
+    ua_property = ua_df['user_agent'].apply(lambda x: parser_ua(x, is_entire=True)).tolist()
     ua_property_df = pd.DataFrame(ua_property, columns=cols_target)
     new_ua_info = pd.concat(objs=[ua_df, ua_property_df], axis=1)
     new_ua_info = new_ua_info.reindex(columns=['id'] + cols_target + ['user_agent'])
     return new_ua_info
 
 
+def parse_ua_rule_batch(ua_df, is_csv=False):
+    """
+
+    :param ua_df: [LABELS, HTTP_UserAgent], HTTP_UserAgent先重命名为 user_agent(parser用的字段时user_agent)
+    :return:
+    """
+    ua_df = ua_df.rename(columns={'HTTP_UserAgent': 'user_agent'})
+    ua_df['HTTP_UserAgent_Rule'] = ua_df['user_agent'].apply(lambda x: parser_ua(x, is_entire=False))
+    ua_df = ua_df.rename(columns={'user_agent': 'HTTP_UserAgent'})
+    # 按要求对列分割后转化为二级索引的多行
+    new_df = ua_df['HTTP_UserAgent_Rule'].str.split('####', expand=True).stack()  # expand=True必需
+    # 重置索引为一级索引并对series重命名
+    new_df = new_df.reset_index(level=1, drop=True).rename('HTTP_UserAgent_Rule')
+    # 删除原df中的rule列
+    ua_df = ua_df.drop(labels='HTTP_UserAgent_Rule', axis=1)
+    # 原df与生成的重索引后的new_df进行连接
+    ua_df = ua_df.join(new_df)
+    if is_csv:
+        ua_df.to_csv('ua_rule_generate.csv', encoding='utf-8')
+    return ua_df
+
+
+
 if __name__ == '__main__':
-    ua_parsered = parse_ua_batch(UA_DF)
-    print(ua_parsered.iloc[:, :-7])
-    print(ua_parsered.columns)
+    # ua_parsered = parse_ua_batch(UA_DF)
+    # ua_parsered.to_csv('parsed_ua.csv', encoding='utf-8', index=False)
+    # print(ua_parsered.iloc[:, :-7])
+    # print(ua_parsered.columns)
+
+    # 将 UA_DF 的 user_agent 列解析后连接成一个字符串，根据others和非others进行规则提取,others去dev_family, 非others取os_version按.切割的第一个元素
+    res = parse_ua_rule_batch(UA_DF)
+    print(res)
 
     # header = getheaders()
     # print(header)
@@ -194,7 +236,8 @@ if __name__ == '__main__':
     # print(fake_ua)
     # parser
     # ua_string = 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3'
-    # ua = parser_ua(ua_string)
+    # ua_string = 'Mozilla/5.0 (Windows; U; Windows NT 5.0; es-ES; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3'
+    # ua = parser_ua(ua_string, is_df=True)
     # print(ua)
     # print(ua.is_mobile)
     # print(ua.is_pc)
