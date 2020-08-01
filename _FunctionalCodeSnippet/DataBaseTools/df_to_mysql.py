@@ -7,7 +7,7 @@
 
 
 import numpy as np
-import pandas as pd
+from _Modules import pandas as pd
 from sqlalchemy import create_engine
 from pymysql import ProgrammingError, DatabaseError
 from attrdict import AttrDict

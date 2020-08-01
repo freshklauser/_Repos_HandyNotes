@@ -1,0 +1,10 @@
+def connect_db():
+    """Connects to the specific database."""
+    rv = sqlite3.connect(app.config['DATABASE'])
+    rv.row_factory = sqlite3.Row
+    return rv
+	
+如果希望对列进行基于名称的访问，则应考虑将row_factory设置为高度优化的sqlite3.Row类型。Row提供对列的基于索引和不区分大小写的基于名称的访问，几乎没有内存开销。它可能比您自己的基于字典的自定义方法甚至基于db_row的解决方案都要好
+
+将设置row_factory为callable sqlite3.Row，将普通元组转换为更有用的对象。
+因此，现在，当您从数据库中提取行时，您将不会获得普通的python tuple，而是一个特殊的对象，该对象使使用起来更加容易（例如，允许您使用名称访问列，而普通的元组将使您使用带编号的索引）。

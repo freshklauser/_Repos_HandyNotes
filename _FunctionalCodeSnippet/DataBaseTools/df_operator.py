@@ -5,8 +5,7 @@
 # @SoftWare : PyCharm
 
 
-import numpy as np
-import pandas as pd
+from _Modules import pandas as pd
 from numpy import nan
 from _FunctionalCodeSnippet.DataBaseTools import db_handler
 
