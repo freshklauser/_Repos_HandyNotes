@@ -1,0 +1,25 @@
+# linux环境
+		
+下载地址： https://httpd.apache.org/download.cgi     ---> 2.4.43
+apr地址： http://archive.apache.org/dist/apr/		 ---> 
+Apache HTTP Server 2.4.x 需要 Apache Portable Runtime（APR）最低版本 1.5.x 和 APR-Util 最低版本 1.5.x. 某些功能可能需要 APR 和 APR-Util 的 1.6.x 版本， 必须升级 APR 库才能使 httpd 的所有功能正常运行。
+
+# 源码编译安装
+1. 需要的依赖包 apr
+    wget http://archive.apache.org/dist/apr/apr-1.6.5.tar.gz  
+    wget http://archive.apache.org/dist/apr/apr-util-1.6.0.tar.gz  
+    wget http://jaist.dl.sourceforge.net/project/pcre/pcre/8.10/pcre-8.10.zip  
+-----> 还是有各种依赖问题，暂时不管了，直接用win64的来测
+
+
+
+直接用yum安装： sudo yum -y install httpd-tools
+[sniky@localhost ~]$ ab -V
+This is ApacheBench, Version 2.3 <$Revision: 1430300 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+	
+-------------------------------------------------------------------------
+问题refer：
+https://blog.csdn.net/superbirds/article/details/52373102?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.compare&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.compare
