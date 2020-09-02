@@ -140,26 +140,26 @@ async def do_count():
 replace_one() 更改文档。它需要两个参数：一个指定要替换哪个文档的查询和一个替换文档。
 该查询遵循与 find() 或 相同的语法 find_one() 。替换一个文档的示例：
 async def do_replace():
-coll = db.test_collection
-old_document = await coll.find_one({'i': 50})
-print('found document: %s' % pprint.pformat(old_document))
-_id = old_document['_id']
+    coll = db.test_collection
+    old_document = await coll.find_one({'i': 50})
+    print('found document: %s' % pprint.pformat(old_document))
+    _id = old_document['_id']
 
-old_document['i'] = -1  # 修改文档(dict)的key, value
-old_document['new'] = 'new'  # 增加文档(dict)的key, value
-del old_document['i']  # 删除文档(dict)的key, value
+    old_document['i'] = -1  # 修改文档(dict)的key, value
+    old_document['new'] = 'new'  # 增加文档(dict)的key, value
+    del old_document['i']  # 删除文档(dict)的key, value
 
-result = await coll.replace_one(
-    {'_id': _id}, old_document)  # replace_one第一个参数为查询条件, 第二个参数为更新后的文档
-print('replaced %s document' % result.modified_count)
-new_document = await coll.find_one({'_id': _id})
-print('document is now %s' % pprint.pformat(new_document))
-loop = asyncio.get_event_loop()
-loop.run_until_complete(do_replace())
+    result = await coll.replace_one(
+        {'_id': _id}, old_document)  # replace_one第一个参数为查询条件, 第二个参数为更新后的文档
+    print('replaced %s document' % result.modified_count)
+    new_document = await coll.find_one({'_id': _id})
+    print('document is now %s' % pprint.pformat(new_document))
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(do_replace())
 
-found document: {'_id': ObjectId('...'), 'i': 50}
-replaced 1 document
-document is now {'_id': ObjectId('...'), 'key': 'value'}
+    found document: {'_id': ObjectId('...'), 'i': 50}
+    replaced 1 document
+    document is now {'_id': ObjectId('...'), 'key': 'value'}
 除了 _id 不变，replace_one() 会对修改后文档的所有字段做更新操作， 慎用 。
 update_one() 与MongoDB的修饰符运算符一起使用来更新文档的一部分并保持其余部分不变。
 我们将找到“i”为51的文档，并使用 $set 运算符将“key”设置为“value”：
