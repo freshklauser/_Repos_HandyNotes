@@ -7,14 +7,15 @@
 """
 后续转成多进程
 """
-
 import threading
 
 import pandas as pd
+from pprint import pprint
+
 import pyshark
 
-from ac_configuration.logger import users_logger
-from ac_configuration.params import PCAP_PATH, FILTERS
+from ac_configuration.logger import users_logger, process_logger, debugs_logger
+from ac_configuration.params import PCAP_PATH, PROBE_FILTER, ASSOCIATION_FILTER, MANAGE_FRAME_FILTER
 
 
 def _get_frame(path_, filter_):
@@ -88,58 +89,49 @@ def get_pkts_features(cap, to_df, csv_file):
         return pkts_features_list, shape_
 
 
-def get_frame_features(path_, filter_, to_df=False, csv_file=''):
-    frame_cap = get_frame_cap(path_, filter_)
-    return get_pkts_features(frame_cap, to_df, csv_file)
+def get_probe_features(path_, filter_=PROBE_FILTER, to_df=False, csv_file=''):
+    probe_cap = get_frame_cap(path_, filter_)
+    return get_pkts_features(probe_cap, to_df, csv_file)
+
+
+def get_association_features(path_, filter_=ASSOCIATION_FILTER, to_df=False, csv_file=''):
+    association_cap = get_frame_cap(path_, filter_)
+    return get_pkts_features(association_cap, to_df, csv_file)
+
+
+def get_mgt_features(path_, filter_=MANAGE_FRAME_FILTER, to_df=False, csv_file=''):
+    mgt_cap = get_frame_cap(path_, filter_)
+    return get_pkts_features(mgt_cap, to_df, csv_file)
+
+
+def get_frame_features():
+    """
+    多进程或多线程实现 probe, association, manage_frame 的解析
+    :return:
+    """
 
 
 class FrameThreading(threading.Thread):
-    def __init__(self, name, func, args, kwargs):
+    def __init__(self, func, arg):
         super(FrameThreading, self).__init__()
-        self.name = name
         self.func = func
-        self.args = args
-        self.kwargs = kwargs
-        self.result = None
+        self.arg = arg
 
     def run(self):
-        self.result = self.func(*self.args, **self.kwargs)
-
-    def get_result(self):
-        if self.result:
-            return self.result
-        else:
-            raise Exception("The current thread is not executed")
-
-
-def start():
-    """
-    Multithreading to implement parser of probe, association and manage_frame
-    :return:
-    """
-    path = PCAP_PATH
-    features = {}
-    thread_pool = []
-
-    users_logger.info('-------------------------- THREADING: START --------------------------')
-    for field, filter_ in FILTERS.items():
-        args = (path, filter_)
-        kwargs = {'to_df': True, 'csv_file': field}
-        t = FrameThreading(name=field, func=get_frame_features, args=args, kwargs=kwargs)
-        thread_pool.append(t)
-
-    for thread in thread_pool:
-        thread.start()
-
-    for thread in thread_pool:
-        thread.join()
-        users_logger.info('Current thread: {}'.format(thread.name))
-        features.update({thread.name: thread.get_result()[0]})
-
-    users_logger.info('-------------------------- THREADING: END --------------------------')
-
-    return features
+        self.func(self.arg)
 
 
 if __name__ == '__main__':
-    res = start()
+    path = PCAP_PATH
+    filter_probe = PROBE_FILTER
+    filter_association = ASSOCIATION_FILTER
+    filter_mgt = MANAGE_FRAME_FILTER
+
+    probe_features, _ = get_probe_features(path_=path, filter_=filter_probe, to_df=True)
+    print(probe_features.shape)
+
+    association_features, _ = get_association_features(path_=path, filter_=filter_association, to_df=True)
+    print(association_features.shape)
+
+    mgt_features, _ = get_mgt_features(path_=path, filter_=filter_probe, to_df=True)
+    print(mgt_features.shape)

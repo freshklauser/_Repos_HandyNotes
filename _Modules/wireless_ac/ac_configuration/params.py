@@ -5,9 +5,13 @@
 # @SoftWare : PyCharm
 
 
-pcap_path = '../data/wifis.cap'
+PCAP_PATH = '../data/wifis.cap'
 
-probe_filter = 'wlan.fc.type_subtype==0x04'
-association_filter = 'wlan.fc.type_subtype==0x00'
+PROBE_FILTER = 'wlan.fc.type_subtype==0x04 && not wlan.fc.type_subtype==0x08 && wlan.sa==5e:d3:77:26:5f:9a'
+ASSOCIATION_FILTER = 'wlan.fc.type_subtype==0x00 && not wlan.fc.type_subtype==0x08 && wlan.sa==5e:d3:77:26:5f:9a'
 # wifi管理帧（不包含Beacon帧）
-manage_frame_filter = 'wlan.fc.type==0 && not wlan.fc.type_subtype==0x08'
+MANAGE_FRAME_FILTER = 'wlan.fc.type==0 && not wlan.fc.type_subtype==0x08 && wlan.sa==5e:d3:77:26:5f:9a'
+
+FILTERS = {'probe': PROBE_FILTER, 'association': ASSOCIATION_FILTER, 'manage': MANAGE_FRAME_FILTER}
+
+CORE = 3
