@@ -56,18 +56,16 @@ def get_pkts_features(cap, to_df, csv_file):
             raise TypeError('[ERROR] incorrect parameters')
 
         pkt_features = {}
-        if not pkt:
-            return pkt_features
+        if pkt:
+            # wlan_radio
+            wlan_radio_fields = pkt.wlan_radio.field_names  # 6
+            for field in wlan_radio_fields:
+                pkt_features.update({field: pkt.wlan_radio.get_field_value(field)})
 
-        # wlan_radio
-        wlan_radio_fields = pkt.wlan_radio.field_names  # 6
-        for field in wlan_radio_fields:
-            pkt_features.update({field: pkt.wlan_radio.get_field_value(field)})
-
-        # wlan.mgt
-        wlan_mgt_fields = pkt['wlan.mgt'].field_names  # 117
-        for field in wlan_mgt_fields:
-            pkt_features.update({field: pkt['wlan.mgt'].get_field_value(field)})
+            # wlan.mgt
+            wlan_mgt_fields = pkt['wlan.mgt'].field_names  # 117
+            for field in wlan_mgt_fields:
+                pkt_features.update({field: pkt['wlan.mgt'].get_field_value(field)})
 
         pkts_features_list.append(pkt_features)
 
