@@ -7,6 +7,8 @@
 
 import hashlib
 import json
+import time
+
 import numpy as np
 import os
 import re
@@ -78,6 +80,24 @@ class NpEncoder(json.JSONEncoder):
             return obj.isoformat()
         else:
             return super(NpEncoder, self).default(obj)
+
+
+def timmer(func):
+    '''定义计时装饰器，监控函数运行时间
+
+    Arguments:
+        func {[object]} -- 计时装饰器监控的函数
+
+    Returns:
+        wrapper -- [description]
+    '''
+    def wrapper(*arg, **kwargs):
+        start_time = time.time()
+        res = func(*arg, **kwargs)
+        stop_time = time.time()
+        print(">>>>>> Func %s, time-consumed: %s(s) <<<<<<" % (func.__name__, stop_time - start_time))
+        return res
+    return wrapper
 
 
 if __name__ == '__main__':

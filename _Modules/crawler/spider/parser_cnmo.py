@@ -27,6 +27,7 @@ from utils.general import generate_uuid, generate_document
 
 sema = asyncio.Semaphore(SEMA_AMOUNT)
 
+
 @retry(attempts=ATTEMPTS)
 async def get_web_content():
     time_out = aiohttp.ClientTimeout(total=TIME_OUT)

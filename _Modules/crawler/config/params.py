@@ -12,7 +12,7 @@ from utils.general import standard_path
 ROOT_DIR = r'E:\_Jun\_Python\_Repos_HandyNotes\_Modules\crawler'
 
 # file path
-DEST_DIR = standard_path(ROOT_DIR, './output')
+DEST_DIR = standard_path(ROOT_DIR, './output_chimera')
 LOG_DIR = standard_path(ROOT_DIR, './logs')
 
 # db params
@@ -27,8 +27,8 @@ COLLECTIONS = ['cnmo']
 
 
 # async params
-TIME_OUT = 60
-ATTEMPTS = 5
+TIME_OUT = 30
+ATTEMPTS = 3
 MAX_DOCS_RETURN = 10
 SEMA_AMOUNT = 5     # 并发量？？
 
@@ -68,6 +68,16 @@ headers = {
 # headers = {"User-Agent": random.choice(UA_POOL)}
 
 
+# chimeratool
+CHIMERA_BASE_URL = "https://chimeratool.com/zh/models"
+CHIMERA_URL = "https://chimeratool.com/zh/models?q=&p={}&scroll=1"
+CHIMERA_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"
+}
+CHIMERA_PROXY = None
+NUMBER_PER_PAGE = 30
+
+
 if __name__ == '__main__':
     print(headers.get("User-Agent"))
     print(DEST_DIR)
@@ -83,3 +93,4 @@ if __name__ == '__main__':
     Upgrade-Insecure-Requests: 1
     Cache-Control: max-age=0
     """
+    print(CHIMERA_URL.format(25))
