@@ -16,6 +16,7 @@ import asyncio
 import re
 import time
 from itertools import chain
+from pprint import pprint
 
 import aiofiles
 import aiohttp
@@ -175,7 +176,15 @@ def start():
     print('localize consumed: ', time.time() - t3)
 
     loop.close()
+    pprint(total_devices)
 
 
 if __name__ == '__main__':
     start()
+
+    # page number consumed:  2.8179233074188232
+    #
+    # parse device consumed:  28.67888331413269
+    #
+    # device set cnt:  11554
+    # localize consumed:  2.1106419563293457

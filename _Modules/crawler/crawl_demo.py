@@ -49,4 +49,34 @@ print('0xfb'.encode('gbk'))
 # with open('demo/html.txt', 'w', encoding='utf-8-sig') as f:
 #     f.write(html)
 
+cols = ['L0', 'L1', 'L2', 'L3']
+data = ['Mobile Phone', 'Samsung', 'Galaxy S9 Plus', '']
 
+strings = 'android-Samsung-Galaxy-S9-Plus-25786jd9892'
+import re
+print(strings.split('-'))
+
+['Samung', 'Galaxy', 'S9', 'Plus']
+
+
+class Node(object):
+    def __init__(self):
+        self.next = {}
+        self.val = None
+        self.isword = False
+
+
+class Trie(object):
+    def __init__(self):
+        self.root = None()
+        self.size = 0
+
+max_len = 30
+a = 'BlackBerry 8520 Curve'     # 21
+b = 'android-BlackBerry-8520-curve-25786jd9892'     # 41
+c = b[:21]
+c = b[8:29]
+print()
+print('word in dictionary: ', a)
+print('target string: ', b)
+print('sub-string: ', c)
